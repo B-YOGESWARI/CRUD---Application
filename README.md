@@ -32,12 +32,19 @@ Import the MySQL JDBC driver (Connector/J) into your project.
 Create a database in MySQL:
 
 **CREATE DATABASE crud_app;
+
 Create a table (example for u**sers):
+
 **CREATE TABLE users (
+
     id INT AUTO_INCREMENT PRIMARY KEY,
+    
     name VARCHAR(100) NOT NULL,
+    
     email VARCHAR(100) UNIQUE NOT NULL,
+    
     password VARCHAR(100) NOT NULL
+    
 );
 **
 
