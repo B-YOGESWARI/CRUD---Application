@@ -1,0 +1,104 @@
+package Jdbc;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Scanner;
+
+public class CrudApplication {
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		while (true) {
+			System.out.println("Enter 1 for insert");
+			System.out.println("Enter 2 for delete");
+			System.out.println("Enter 3 for update name");
+			System.out.println("Enter 4 for read table data");
+			System.out.println("Enter your choice:");
+			int choice = sc.nextInt();
+			switch (choice) {
+			case 1:
+				try {
+					System.out.println("Enter id :");
+					int id = sc.nextInt();
+					sc.nextLine();
+					System.out.println("Enter name:");
+					String name = sc.nextLine();
+					System.out.println("Enter age:");
+					int age = sc.nextInt();
+					Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/CRUD", "root", "root");
+					PreparedStatement psms = conn.prepareStatement("insert into person values (?,?,?)");
+					psms.setInt(1, id);
+					psms.setString(2, name);
+					psms.setInt(3, age);
+					int i = psms.executeUpdate();
+					if (i > 0) {
+						System.out.println("Data is inserted");
+					} else {
+						System.out.println("Something went Wrong..");
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				break;
+			case 2:
+				try {
+					Scanner sc1 = new Scanner(System.in);
+					System.out.println("Enter id:");
+					int id = sc1.nextInt();
+					Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/CRUD", "root", "root");
+					PreparedStatement psms = conn.prepareStatement("Delete from person where id=?");
+					psms.setInt(1, id);
+					int i = psms.executeUpdate();
+					if (i > 0) {
+						System.out.println("Deleted..");
+					} else {
+						System.out.println("Not Deleted..");
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				break;
+			case 3:
+				try {
+					Scanner sc2 = new Scanner(System.in);
+					System.out.println("Enter id to be updated:");
+					int id = sc.nextInt();
+					sc.nextLine();
+					System.out.println("Enter name to be updated:");
+					String name = sc.nextLine();
+					Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/CRUD", "root", "root");
+					PreparedStatement psms = conn.prepareStatement("update person set name=? where id=?");
+					psms.setString(1, name);
+					psms.setInt(2, id);
+					int i = psms.executeUpdate();
+					if (i > 0) {
+						System.out.println("updated");
+					} else {
+						System.out.println("not updated.");
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				break;
+			case 4:
+				try {
+					Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/CRUD", "root", "root");
+					Statement stmt = conn.createStatement();
+					ResultSet rs = stmt.executeQuery("SELECT * FROM PERSON");
+					while (rs.next()) {
+						System.out.println(rs.getInt(1) + " " + rs.getString(2) + " " + rs.getInt(3));
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				break;
+			default:
+				System.out.println("invalid choice");
+				break;
+			}
+		}
+	}
+}

@@ -1,0 +1,11 @@
+CREATE DATABASE CRUD;
+USE CRUD;
+CREATE TABLE IF NOT EXISTS person (
+    id INT PRIMARY KEY,
+    name VARCHAR(100),
+    age INT
+);
+INSERT INTO person (id, name, age) VALUES (101, 'Yogeswari', 20);
+INSERT INTO person (id, name, age) VALUES (102, 'Gowthami', 21);
+INSERT INTO person (id, name, age) VALUES (103, 'Shyamala', 22);
+INSERT INTO person (id, name, age) VALUES (104, 'ReddyRani', 19);
